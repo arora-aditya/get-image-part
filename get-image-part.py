@@ -1,5 +1,6 @@
 import tornado.ioloop
 import tornado.web
+import tornado.wsgi
 import io
 import time
 import random
@@ -25,5 +26,6 @@ application = tornado.web.Application([
 ])
 
 if __name__ == "__main__":
-    application.listen(8000)
-    tornado.ioloop.IOLoop.instance().start()
+    wsgi_app = tornado.wsgi.WSGIAdapter(application)
+    server = wsgiref.simple_server.make_server('', 4590, wsgi_app)
+    server.serve_forever()
