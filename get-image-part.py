@@ -16,7 +16,7 @@ class MainHandler(tornado.web.RequestHandler):
         fn = os.path.join(os.path.dirname(__file__), "images/"+str(img)+".jpg")
         im = Image.open(fn)
         dim = im.size
-        c = im.crop((n*dim[0]/N, 0, (n+1)*dim[0]/N, dim[1]))
+        c = im.crop((int(n*dim[0]/N), 0, int((n+1)*dim[0]/N), dim[1]))
         bio = io.BytesIO()
         c.save(bio, 'JPEG')
         self.set_header('Content-Type', 'image/jpeg')
