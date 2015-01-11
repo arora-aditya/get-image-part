@@ -17,6 +17,7 @@ class MainHandler(tornado.web.RequestHandler):
         im = Image.open(fn)
         dim = im.size
         c = im.crop((int(n*dim[0]/N), 0, int((n+1)*dim[0]/N), dim[1]))
+        c = c.convert("RGBA")
         bio = io.BytesIO()
         c.save(bio, 'PNG')
         self.set_header('Content-Type', 'image/jpeg')
