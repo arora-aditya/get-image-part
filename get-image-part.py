@@ -11,15 +11,16 @@ N = 20
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
-        n = int(self.get_argument("n"))
+        n = int(random.uniform(0,N))
         img = int(self.get_argument("img"))
         fn = os.path.join(os.path.dirname(__file__), "images/"+str(img)+".jpg")
         im = Image.open(fn)
         dim = im.size
         c = im.crop((int(n*dim[0]/N), 0, int((n+1)*dim[0]/N), dim[1]))
         bio = io.BytesIO()
-        c.save(bio, 'JPEG')
+        c.save(bio, 'PNG')
         self.set_header('Content-Type', 'image/jpeg')
+        self.set_header('X-ECE459-Fragment', str(n))
         time.sleep(abs(random.gauss(0.2, 0.2)))
         self.write(bio.getvalue())
 
