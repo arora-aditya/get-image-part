@@ -20,6 +20,7 @@ class MainHandler(tornado.web.RequestHandler):
         c = c.convert("RGBA")
         bio = io.BytesIO()
         c.save(bio, 'PNG')
+        self.set_header('Access-Control-Allow-Origin', '*')
         self.set_header('Content-Type', 'image/jpeg')
         self.set_header('X-ECE459-Fragment', str(n))
         time.sleep(abs(random.gauss(0.2, 0.2)))
