@@ -38,5 +38,5 @@ if __name__ == "__main__":
     ch = logging.StreamHandler()
     ch.setLevel(logging.DEBUG)
     logger.addHandler(ch)
-    server = wsgiref.simple_server.make_server('', 8000, application)
+    server = wsgiref.simple_server.make_server('', 4590, application)
     server.serve_forever()
