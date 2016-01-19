@@ -6,6 +6,7 @@ import time
 import random
 import os
 
+from tornado.log import enable_pretty_logging
 from PIL import Image
 N = 20
 
@@ -26,17 +27,17 @@ class MainHandler(tornado.web.RequestHandler):
         time.sleep(abs(random.gauss(0.2, 0.2)))
         self.write(bio.getvalue())
 
-application = tornado.wsgi.WSGIApplication([
+application = tornado.web.Application([
     (r"/image", MainHandler),
 ])
 
 if __name__ == "__main__":
     import logging
-    import wsgiref.simple_server
 
     logger = logging.getLogger('tornado.application')
     ch = logging.StreamHandler()
     ch.setLevel(logging.DEBUG)
     logger.addHandler(ch)
-    server = wsgiref.simple_server.make_server('', 4590, application)
-    server.serve_forever()
+    application.listen(4590)
+    enable_pretty_logging()
+    tornado.ioloop.IOLoop.instance().start()
