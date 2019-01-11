@@ -8,6 +8,7 @@ import os
 from wsgiref.simple_server import make_server, WSGIServer
 from SocketServer import ThreadingMixIn
 
+from tornado.log import enable_pretty_logging
 from PIL import Image
 N = 20
 
@@ -31,13 +32,12 @@ class MainHandler(tornado.web.RequestHandler):
 class ThreadingWSGIServer(ThreadingMixIn, WSGIServer):
     pass
         
-application = tornado.wsgi.WSGIApplication([
+application = tornado.wsgi.Application([
     (r"/image", MainHandler),
 ])
 
 if __name__ == "__main__":
     import logging
-    import wsgiref.simple_server
 
     logger = logging.getLogger('tornado.application')
     ch = logging.StreamHandler()
