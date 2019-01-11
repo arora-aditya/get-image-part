@@ -5,6 +5,8 @@ import io
 import time
 import random
 import os
+from wsgiref.simple_server import make_server, WSGIServer
+from SocketServer import ThreadingMixIn
 
 from PIL import Image
 N = 20
@@ -26,6 +28,9 @@ class MainHandler(tornado.web.RequestHandler):
         time.sleep(abs(random.gauss(0.2, 0.2)))
         self.write(bio.getvalue())
 
+class ThreadingWSGIServer(ThreadingMixIn, WSGIServer):
+    pass
+        
 application = tornado.wsgi.WSGIApplication([
     (r"/image", MainHandler),
 ])
@@ -38,5 +43,5 @@ if __name__ == "__main__":
     ch = logging.StreamHandler()
     ch.setLevel(logging.DEBUG)
     logger.addHandler(ch)
-    server = wsgiref.simple_server.make_server('', 8000, application)
+    server = wsgiref.simple_server.make_server('', 8000, application, ThreadingWSGIServer)
     server.serve_forever()
