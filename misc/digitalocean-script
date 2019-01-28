@@ -1,0 +1,15 @@
+# i.e. bootstrap.sh
+sudo useradd -m plam
+su - plam
+git clone https://github.com/patricklam/get-image-part
+exit
+
+cd /etc/systemd/system
+cp ~plam/get-image-part/misc/get-image-part.service .
+chmod a+x get-image-part.service
+apt update
+apt install python3-pil python3-tornado
+systemctl start get-image-part.service
+systemctl enable get-image-part.service
+
+
