@@ -17,14 +17,14 @@ class MainHandler(tornado.web.RequestHandler):
         fn = os.path.join(os.path.dirname(__file__), "images/"+str(img)+".jpg")
         im = Image.open(fn)
         dim = im.size
-        c = im.crop((int(n*dim[0]/N), 0, int((n+1)*dim[0]/N), dim[1]))
+        c = im.crop((0, int(n*dim[1]/N), dim[0], int((n+1)*dim[1]/N)))
         c = c.convert("RGBA")
         bio = io.BytesIO()
         c.save(bio, 'PNG')
         self.set_header('Access-Control-Allow-Origin', '*')
         self.set_header('Content-Type', 'image/jpeg')
-        self.set_header('X-ECE459-Fragment', str(n))
-        # time.sleep(abs(random.gauss(0.2, 0.2)))
+        self.set_header('X-Ece252-Fragment', str(n))
+        time.sleep(abs(random.gauss(0.2, 0.2)))
         self.write(bio.getvalue())
 
 application = tornado.web.Application([
