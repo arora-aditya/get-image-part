@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import tornado.ioloop
 import tornado.web
 import tornado.wsgi
@@ -12,8 +14,12 @@ N = 50
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
-        n = int(random.uniform(0,N))
         img = int(self.get_argument("img"))
+        n = int(self.get_argument("part"))
+        if n < 0:
+            n = 0
+        elif n > N:
+            n = N-1
         fn = os.path.join(os.path.dirname(__file__), "images/"+str(img)+"/output_"+str(n)+".png")
         im = Image.open(fn)
         dim = im.size
@@ -23,7 +29,8 @@ class MainHandler(tornado.web.RequestHandler):
         self.set_header('Access-Control-Allow-Origin', '*')
         self.set_header('Content-Type', 'image/jpeg')
         self.set_header('X-Ece252-Fragment', str(n))
-        time.sleep(abs(random.gauss(0.2, 0.2)))
+        # sleep for a fixed amount of time
+        time.sleep(4)
         self.write(bio.getvalue())
 
 application = tornado.web.Application([
@@ -37,6 +44,6 @@ if __name__ == "__main__":
     ch = logging.StreamHandler()
     ch.setLevel(logging.DEBUG)
     logger.addHandler(ch)
-    application.listen(2520)
+    application.listen(2530)
     enable_pretty_logging()
     tornado.ioloop.IOLoop.instance().start()

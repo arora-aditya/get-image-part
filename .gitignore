@@ -69,3 +69,6 @@ venv/
 
 # Cython
 *.c
+
+# custom log files
+*.log
