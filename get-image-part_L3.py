@@ -29,8 +29,6 @@ class MainHandler(tornado.web.RequestHandler):
         self.set_header('Access-Control-Allow-Origin', '*')
         self.set_header('Content-Type', 'image/jpeg')
         self.set_header('X-Ece252-Fragment', str(n))
-        # sleep for a fixed amount of time
-        time.sleep(4)
         self.write(bio.getvalue())
 
 application = tornado.web.Application([
