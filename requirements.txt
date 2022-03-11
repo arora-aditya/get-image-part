@@ -1,2 +1,2 @@
-Pillow==6.0.0
+Pillow==9.0.1
 tornado==6.0.2
